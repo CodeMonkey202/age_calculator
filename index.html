@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Age Calculator</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div class="container">
+
+<div class="calculator">
+ 	<h1> My <br> <span> Age Calculator </span> </h1>
+ 	 <div class="input-box">
+ 	 	<input type="date" name="dateOfBirth" id="date">
+ 	 	<button onclick="getUserAge()">Get My Age</button>
+ 	 </div>
+
+ 	 	<p id="age">  </p>
+ 	 	<p id="birthTime"> </p>
+
+</div>
+</div>
+<script type="text/javascript">
+let userInput = document.getElementById('date');
+userInput.max = new Date().toISOString().split("T")[0];
+let userAge = document.getElementById("age");
+let BirthDayTime = document.getElementById("birthTime");
+
+function getUserAge(){
+let birthDate = new Date(userInput.value);
+
+let FirstDate = birthDate.getDate();
+let FirstMonth = birthDate.getMonth() + 1;
+let FirstYear = birthDate.getFullYear();
+
+
+let today = new Date();
+
+let SecondDate = today.getDate();
+let SecondMonth = today.getMonth() + 1;
+let SecondYear = today.getFullYear();
+
+
+let BirthDays = FirstDate - SecondDate;
+
+let ThirdDate, ThirdMonth,ThirdYear;
+
+ ThirdYear = SecondYear - FirstYear;
+
+if(SecondMonth > FirstMonth){
+	ThirdMonth = SecondMonth - FirstMonth
+}else{
+ThirdYear--;
+ThirdMonth = 12 + SecondMonth - FirstMonth;
+}
+
+if(SecondDate >= FirstDate){
+	ThirdDate = SecondDate - FirstDate;
+}else{
+ThirdMonth --;
+ThirdDate = getDaysInAMonth(FirstYear, FirstMonth) + SecondDate - FirstDate;
+}
+
+if(ThirdMonth < 0){
+	ThirdMonth = 11;
+	ThirdYear--;
+} 
+console.log(ThirdYear, ThirdMonth, ThirdDate);
+userAge.innerHTML = `You are <span>${ThirdYear} </span> years old, <span>${ThirdMonth} </span> months and <span>${ThirdDate} </span> days old </span>`;
+if(BirthDayTime <= SecondMonth){
+
+BirthDayTime.innerHTML = `Your Birthday a ${BirthMonth} month and ${BirthDays} away`;
+}
+let msg = new SpeechSynthesisUtterance("You are " + ThirdYear + " years old "+ ThirdMonth+ " months and " + ThirdDate + " days old ");
+speechSynthesis.speak(msg);
+let age = new SpeechSynthesisUtterance("Your current Age is " + ThirdYear + " Your Birthday is Just " + BirthDays +  " days away,I'll Wish you A Happy Birthday By Then,I Love You");
+speechSynthesis.speak(age);
+
+}
+
+function getDaysInAMonth(year , month ,){
+	return new Date(month, year, 0).getDate();
+
+}
+</script>
+
+</body>
+</html>
